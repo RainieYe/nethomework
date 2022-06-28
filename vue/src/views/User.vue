@@ -125,7 +125,7 @@ import request from "../../utils/request";
 import {exportMethod} from "../../utils/util";
 
 import FileSaver from "file-saver";
-import XLSX from "xlsx";
+import xlsx from "xlsx";
 
 
 export default {
