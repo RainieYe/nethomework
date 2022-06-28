@@ -11,76 +11,65 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 28/06/2022 11:58:02
+ Date: 29/06/2022 01:18:56
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for customer
--- ----------------------------
-DROP TABLE IF EXISTS `customer`;
-CREATE TABLE `customer`  (
-  `identifier` int(0) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `phone` int(0) NULL DEFAULT NULL,
-  `tip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`identifier`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
 -- Table structure for room
 -- ----------------------------
 DROP TABLE IF EXISTS `room`;
 CREATE TABLE `room`  (
+  `roomType` int(0) NOT NULL,
   `roomId` int(0) NOT NULL,
-  `type` int(0) NOT NULL,
-  `identifier` int(0) NULL DEFAULT NULL,
   `day` int(0) NULL DEFAULT NULL,
+  `userId` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`roomId`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of room
 -- ----------------------------
-INSERT INTO `room` VALUES (211, 1, NULL, NULL);
-INSERT INTO `room` VALUES (212, 1, NULL, NULL);
-INSERT INTO `room` VALUES (223, 2, NULL, NULL);
-INSERT INTO `room` VALUES (224, 2, NULL, NULL);
-INSERT INTO `room` VALUES (331, 3, NULL, NULL);
-INSERT INTO `room` VALUES (332, 3, NULL, NULL);
-INSERT INTO `room` VALUES (343, 4, NULL, NULL);
-INSERT INTO `room` VALUES (344, 4, NULL, NULL);
-INSERT INTO `room` VALUES (451, 5, NULL, NULL);
-INSERT INTO `room` VALUES (452, 5, NULL, NULL);
-INSERT INTO `room` VALUES (463, 6, NULL, NULL);
-INSERT INTO `room` VALUES (464, 6, NULL, NULL);
-INSERT INTO `room` VALUES (571, 7, NULL, NULL);
-INSERT INTO `room` VALUES (572, 7, NULL, NULL);
+INSERT INTO `room` VALUES (1, 211, NULL, NULL);
+INSERT INTO `room` VALUES (1, 212, NULL, NULL);
+INSERT INTO `room` VALUES (2, 223, NULL, NULL);
+INSERT INTO `room` VALUES (2, 224, NULL, NULL);
+INSERT INTO `room` VALUES (3, 331, NULL, NULL);
+INSERT INTO `room` VALUES (3, 332, 1, 3);
+INSERT INTO `room` VALUES (4, 343, 2, 2);
+INSERT INTO `room` VALUES (4, 344, NULL, NULL);
+INSERT INTO `room` VALUES (5, 451, NULL, NULL);
+INSERT INTO `room` VALUES (5, 452, NULL, NULL);
+INSERT INTO `room` VALUES (6, 463, NULL, NULL);
+INSERT INTO `room` VALUES (6, 464, NULL, NULL);
+INSERT INTO `room` VALUES (7, 571, 3, 1);
+INSERT INTO `room` VALUES (7, 572, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for roomstandard
 -- ----------------------------
 DROP TABLE IF EXISTS `roomstandard`;
 CREATE TABLE `roomstandard`  (
-  `type` int(0) NULL DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `typeName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `area` int(0) NULL DEFAULT NULL,
   `bedNum` int(0) NULL DEFAULT NULL,
-  `priceToday` int(0) NULL DEFAULT NULL
+  `priceToday` int(0) NULL DEFAULT NULL,
+  `type` int(0) NOT NULL,
+  PRIMARY KEY (`type`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of roomstandard
 -- ----------------------------
-INSERT INTO `roomstandard` VALUES (1, '优享大床房', 30, 1, 250);
-INSERT INTO `roomstandard` VALUES (2, '优享双床房', 30, 2, 300);
-INSERT INTO `roomstandard` VALUES (3, '舒适大床房', 30, 1, 350);
-INSERT INTO `roomstandard` VALUES (4, '舒适双床房', 30, 2, 400);
-INSERT INTO `roomstandard` VALUES (5, '轻享大床房', 32, 1, 450);
-INSERT INTO `roomstandard` VALUES (6, '轻享套房', 64, 4, 500);
-INSERT INTO `roomstandard` VALUES (7, '舒适套房', 64, 4, 600);
+INSERT INTO `roomstandard` VALUES ('优享大床房', 30, 1, 250, 1);
+INSERT INTO `roomstandard` VALUES ('优享双床房', 30, 2, 300, 2);
+INSERT INTO `roomstandard` VALUES ('舒适大床房', 30, 1, 350, 3);
+INSERT INTO `roomstandard` VALUES ('舒适双床房', 30, 2, 400, 4);
+INSERT INTO `roomstandard` VALUES ('轻享大床房', 32, 1, 450, 5);
+INSERT INTO `roomstandard` VALUES ('轻享套房', 64, 4, 500, 6);
+INSERT INTO `roomstandard` VALUES ('舒适套房', 64, 4, 600, 7);
 
 -- ----------------------------
 -- Table structure for user
@@ -90,17 +79,19 @@ CREATE TABLE `user`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `phone` int(0) NULL DEFAULT NULL,
   `jurisdiction` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `tip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (0, '123456', 'user', NULL, '1', NULL);
-INSERT INTO `user` VALUES (1, '1111', '111', NULL, '2', NULL);
-INSERT INTO `user` VALUES (3, '2222222', '2222', NULL, '2', NULL);
+INSERT INTO `user` VALUES (0, '123456', 'user', '管理员', 0, '1', '管理员');
+INSERT INTO `user` VALUES (1, '1', '111', '叶嘉雯', 111111, '2', '消费者');
+INSERT INTO `user` VALUES (2, '2', '222', '邵江辉', 222222, '2', '消费者');
+INSERT INTO `user` VALUES (3, '3', '333', '朱津毅', 333333, '2', '消费者');
 
 SET FOREIGN_KEY_CHECKS = 1;
