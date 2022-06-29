@@ -7,10 +7,10 @@ import lombok.Data;
 
 @TableName("room")
 @Data
-public class room {
-    @TableId(value = "roomId", type = IdType.AUTO)
+public class Room {
+    @TableId(value = "roomId")
+    private Integer roomType;
     private Integer roomId;
-    private Integer type;
-    private Integer identifier;
     private Integer day;
+    private Integer userId;
 }
