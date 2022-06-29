@@ -7,10 +7,10 @@ import lombok.Data;
 @TableName("roomstandard")
 @Data
 public class RoomStandard {
-    @TableId(value = "type")
-    private Integer type;
     private String typename;
     private Integer area;
     private Integer bedNum;
     private Integer priceToday;
+    @TableId(value = "type")
+    private Integer type;
 }

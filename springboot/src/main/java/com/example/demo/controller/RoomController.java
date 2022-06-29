@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.entity.Example;
+import com.example.demo.mapper.ExampleMapper;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.common.Result;
 
@@ -21,6 +23,7 @@ public class RoomController {
 
     @Resource
     RoomMapper roomMapper;
+    ExampleMapper exampleMapper;
 
     // 增加房间
     @PostMapping
@@ -52,25 +55,31 @@ public class RoomController {
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String search){
 
-        LambdaQueryWrapper<Room> wrapper= Wrappers.lambdaQuery();
+        String mysql = "DROP TABLE IF EXISTS example;\n" +
+                "CREATE TABLE example AS SELECT * FROM roomstandard rs LEFT JOIN room r ON r.roomType = rs.type LEFT JOIN `user` u ON r.userId = u.id;\n" +
+                "ALTER TABLE example DROP COLUMN roomType, DROP COLUMN userId;\n" +
+                "ALTER TABLE example ADD PRIMARY KEY(roomId);";
+        exampleMapper.dynamicSql(mysql);
+
+        LambdaQueryWrapper<Example> wrapper= Wrappers.lambdaQuery();
         if(StringUtils.isNotBlank(search)) {
             try {
                 Integer roomId = Integer.valueOf(search);
-                wrapper.eq(Room::getRoomId, roomId);
+                wrapper.eq(Example::getRoomId, roomId);
             } catch (StringIndexOutOfBoundsException e) {
                 LambdaQueryWrapper<User> wrapperUser = Wrappers.lambdaQuery();
                 LambdaQueryWrapper<RoomStandard> wrapperStandard = Wrappers.lambdaQuery();
                 if (wrapperUser.eq(User::getName, search) != null) {
                     Integer userid = wrapperUser.eq(User::getName, search).getEntity().getId();
-                    wrapper.eq(Room::getUserId, userid);
+                    wrapper.eq(Example::getId, userid);
                 }else if (wrapperStandard.eq(RoomStandard::getTypename, search) != null) {
                     Integer type = wrapperStandard.eq(RoomStandard::getTypename, search).getEntity().getType();
-                    wrapper.eq(Room::getRoomType, type);
+                    wrapper.eq(Example::getType, type);
                 }
             }
         }
-        // String roomStandardSql ="SELECT *" + "FROM  room r" + "LEFT JOIN roomstandard rs ON r.roomType = rs.type" + "LEFT JOIN `user` u ON r.userId = u.id";
-        Page<Room> userPage=roomMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
+
+        Page<Example> userPage= exampleMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return Result.success(userPage);
     }
 
