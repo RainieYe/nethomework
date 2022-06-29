@@ -11,11 +11,51 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 29/06/2022 01:18:56
+ Date: 29/06/2022 21:30:34
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for example
+-- ----------------------------
+DROP TABLE IF EXISTS `example`;
+CREATE TABLE `example`  (
+  `typeName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `area` int(0) NULL DEFAULT NULL,
+  `bedNum` int(0) NULL DEFAULT NULL,
+  `priceToday` int(0) NULL DEFAULT NULL,
+  `type` int(0) NOT NULL,
+  `roomId` int(0) NOT NULL,
+  `day` int(0) NULL DEFAULT NULL,
+  `id` int(0) NULL DEFAULT 0,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `phone` int(0) NULL DEFAULT NULL,
+  `jurisdiction` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `tip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`roomId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of example
+-- ----------------------------
+INSERT INTO `example` VALUES ('优享大床房', 30, 1, 250, 1, 211, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('优享大床房', 30, 1, 250, 1, 212, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('优享双床房', 30, 2, 300, 2, 223, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('优享双床房', 30, 2, 300, 2, 224, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('舒适大床房', 30, 1, 350, 3, 331, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('舒适大床房', 30, 1, 350, 3, 332, 1, 3, '3', '333', '朱津毅', 333333, '2', '消费者');
+INSERT INTO `example` VALUES ('舒适双床房', 30, 2, 400, 4, 343, 2, 2, '2', '222', '邵江辉', 222222, '2', '消费者');
+INSERT INTO `example` VALUES ('舒适双床房', 30, 2, 400, 4, 344, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('轻享大床房', 32, 1, 450, 5, 451, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('轻享大床房', 32, 1, 450, 5, 452, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('轻享套房', 64, 4, 500, 6, 463, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('轻享套房', 64, 4, 500, 6, 464, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `example` VALUES ('舒适套房', 64, 4, 600, 7, 571, 3, 1, '1', '111', '叶嘉雯', 111111, '2', '消费者');
+INSERT INTO `example` VALUES ('舒适套房', 64, 4, 600, 7, 572, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for room
