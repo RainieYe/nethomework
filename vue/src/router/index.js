@@ -29,6 +29,16 @@ const routes = [
         name: 'Person',
         component: ()=>import("@/views/Person")
       },
+      {
+        path: '/room',
+        name: 'Room',
+        component: ()=>import("@/views/Room")
+      },
+      {
+        path: '/roomStandard',
+        name: 'RoomStandard',
+        component: ()=>import("@/views/RoomStandard")
+      },
     ]
   },
   {
@@ -41,7 +51,6 @@ const routes = [
     name: 'Register',
     component: ()=>import("@/views/Register")
   },
-
 ]
 
 const router = createRouter({

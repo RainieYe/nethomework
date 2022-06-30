@@ -1,6 +1,14 @@
 F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\common\MybatisPlusConfig.java
+F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\entity\Example.java
+F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\entity\Room.java
+F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\mapper\RoomMapper.java
+F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\controller\RoomController.java
+F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\entity\User.java
+F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\entity\RoomStandard.java
 F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\common\Result.java
 F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\controller\UserController.java
+F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\controller\RoomStandardController.java
 F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\DemoApplication.java
-F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\entity\User.java
+F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\mapper\ExampleMapper.java
+F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\mapper\RoomStandardMapper.java
 F:\springboot+vue\springboot-vue-demo1\springboot\src\main\java\com\example\demo\mapper\UserMapper.java

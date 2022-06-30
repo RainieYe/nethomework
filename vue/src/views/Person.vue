@@ -1,41 +1,27 @@
 <template>
-  <div>
-    <el-card style="width: 40%;margin: 10px auto">
+  <div style="background-color: #dedfe0">
+    <el-card style="width: 40%;margin: 90px auto">
       <el-form ref="form" :model="form" border label-width="80px">
         <!--      prop写表头属性 label 表格名字 width自适应-->
         <el-form-item label="用户名">
           <el-input v-model="form.username" disabled></el-input>
         </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="form.name" disabled></el-input>
+        </el-form-item>
         <el-form-item label="密码">
           <el-input v-model="form.password" show-password></el-input>
         </el-form-item>
-        <el-form-item label="年龄" >
-          <el-input v-model="form.age"></el-input>
+        <el-form-item label="手机号" >
+          <el-input v-model="form.phone"></el-input>
         </el-form-item>
-        <el-form-item label="性别" >
-          <el-input v-model="form.sex"></el-input>
-        </el-form-item>
-        <el-form-item label="地址" >
-          <el-input v-model="form.address"></el-input>
-        </el-form-item>
-        <el-form-item label="擅长" >
-          <el-input v-model="form.excel"></el-input>
-        </el-form-item>
-        <el-form-item label="部门" >
-          <el-input v-model="form.department"></el-input>
-        </el-form-item>
-        <el-form-item label="职务">
-          <el-input v-model="form.post"></el-input>
-        </el-form-item>
-        <el-form-item label="门诊时间">
-          <el-input v-model="form.outpatienttime"></el-input>
-        </el-form-item>
-        <el-form-item label="职称">
-          <el-input v-model="form.professionaltitles"></el-input>
+        <el-form-item label="备注">
+          <el-input v-model="form.tip"></el-input>
         </el-form-item>
       </el-form>
       <div style="text-align: center">
-        <el-button type="primary" @click="update">保存</el-button>
+        <el-button style="border-radius:20px;background-color: #b7b1a5;text-decoration-color:#cccccc;"
+                   @click="update">保存</el-button>
       </div>
     </el-card>
   </div>
@@ -65,6 +51,7 @@ export default {
             message:"更新成功"
           })
           sessionStorage.setItem("user",JSON.stringify(this.form))
+          this.$router.push("/selfinformation")
         }else{
           this.$message({
             type:"error",
