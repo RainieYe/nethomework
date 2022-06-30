@@ -7,9 +7,9 @@ import lombok.Data;
 @TableName("room")
 @Data
 public class Room {
-    private Integer roomType;
+    private Integer roomtype;
     @TableId(value = "roomId")
-    private Integer roomId;
+    private Integer roomid;
     private Integer day;
-    private Integer userId;
+    private Integer userid;
 }
