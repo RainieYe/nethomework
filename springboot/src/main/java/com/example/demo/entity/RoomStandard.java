@@ -9,8 +9,8 @@ import lombok.Data;
 public class RoomStandard {
     private String typename;
     private Integer area;
-    private Integer bedNum;
-    private Integer priceToday;
+    private Integer bednum;
+    private Integer pricetoday;
     @TableId(value = "type")
     private Integer type;
 }
