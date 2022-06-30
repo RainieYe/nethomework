@@ -3,9 +3,10 @@
     <!--    头部-->
 <!--    <Header/>-->
     <div style="color:#FFFFFF;height:100px;line-height: 80px;border-bottom: 1px solid;display: flex">
-      <div style="width: 200px;padding-left: 30px;font-size:32px;font-width: bold;background-color: #e0cdcf">后台管理</div>
-      <div style="flex: 1;background-color: #e0cdcf"></div>
-      <div style="width: 100px;background-color: #e0cdcf">
+      <div style="width: 400px;padding-left: 30px;font-size:32px;font-width: bold;
+           background-color: #b7b1a5">酒店后台管理系统</div>
+      <div style="flex: 1;background-color: #b7b1a5"></div>
+      <div style="width: 100px;background-color: #b7b1a5">
         <img src="@/assets/ppp.png" style="width: 23px;height: 23px;margin-top: 30px"/>
         <el-dropdown>
         <span class="el-dropdown-link">{{user.username}}
@@ -29,18 +30,19 @@
           class="el-menu-vertical-demo"
           default-active="1"
           router
-          style="width:200px;min-height: calc(100vh - 10px);background-color:#c1cbd7">
-        <el-sub-menu index="1">
-<!--          v-if="user.jurisdiction === '1'"-->
+          style="width:200px;min-height: calc(100vh - 10px);background-color:#b4b4af">
+        <el-sub-menu index="1"   v-if="user.jurisdiction === '1'">
           <template #title>系统管理</template>
-          <el-menu-item index="/roomstandard">客房标准信息管理</el-menu-item>
-          <el-menu-item index="/room">订房信息管理</el-menu-item>
+          <el-menu-item style="background-color:#c4c4c0" index="/roomstandard">客房标准信息管理</el-menu-item>
+          <el-menu-item style="background-color:#c4c4c0" index="/example">订房信息管理</el-menu-item>
+          <el-menu-item style="background-color:#c4c4c0" index="/user">用户管理</el-menu-item>
 <!--          <el-menu-item index="/user">顾客信息管理</el-menu-item>-->
         </el-sub-menu>
-        <el-sub-menu index="2" >
-          <template #title>顾客个人信息管理</template>
-          <el-menu-item index="/selfinformation">个人信息</el-menu-item>
-          <el-menu-item index="/person">修改个人信息</el-menu-item>
+        <el-sub-menu style="text-overline-color: #FFFFFF;" index="2" >
+          <template #title>账户信息管理</template>
+          <el-menu-item style="background-color:#c4c4c0" index="/selfinformation">个人信息</el-menu-item>
+<!--          <el-menu-item style="background-color:#c4c4c0" index="/myroom">房间信息</el-menu-item>-->
+          <el-menu-item style="background-color:#c4c4c0" index="/person">修改个人信息</el-menu-item>
         </el-sub-menu>
       </el-menu>
       <!--  内容区域-->

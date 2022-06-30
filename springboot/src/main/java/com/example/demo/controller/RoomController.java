@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,6 +16,8 @@ import com.example.demo.entity.RoomStandard;
 import com.example.demo.entity.User;
 
 import javax.annotation.Resource;
+import java.sql.Statement;
+
 
 //数据交互
 @RestController
@@ -23,8 +26,6 @@ public class RoomController {
 
     @Resource
     RoomMapper roomMapper;
-    @Resource
-    ExampleMapper exampleMapper;
 
     // 增加房间
     @PostMapping
@@ -39,13 +40,20 @@ public class RoomController {
     // 更新房间信息
     @PutMapping
     public Result<?> update(@RequestBody Room room){
-        roomMapper.insert(room);
+        roomMapper.updateById(room);
+        return Result.success();
+    }
+    @GetMapping("/croom/{roomID}")
+    public Result<?> update2(@PathVariable Integer roomID){
+        LambdaUpdateWrapper<Room> wrapper= Wrappers.lambdaUpdate();
+        wrapper.eq(Room::getRoomid, roomID).set(Room::getDay, null).set(Room::getUserid, null);
+        roomMapper.update(null, wrapper);
         return Result.success();
     }
 
     // 删除房间信息
     @DeleteMapping("/{roomID}")
-    public Result<?> delete(@PathVariable Long roomID){
+    public Result<?> delete(@PathVariable Integer roomID){
         roomMapper.deleteById(roomID);
         return Result.success();
     }
@@ -56,31 +64,13 @@ public class RoomController {
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String search){
 
-        String mysql = "DROP TABLE IF EXISTS example;\n" +
-                "CREATE TABLE example AS SELECT * FROM roomstandard rs LEFT JOIN room r ON r.roomType = rs.type LEFT JOIN `user` u ON r.userId = u.id;\n" +
-                "ALTER TABLE example DROP COLUMN roomType, DROP COLUMN userId;\n" +
-                "ALTER TABLE example ADD PRIMARY KEY(roomId);";
-        exampleMapper.dynamicSql(mysql);
-
-        LambdaQueryWrapper<Example> wrapper= Wrappers.lambdaQuery();
+        LambdaQueryWrapper<Room> wrapper= Wrappers.lambdaQuery();
         if(StringUtils.isNotBlank(search)) {
-            try {
-                Integer roomId = Integer.valueOf(search);
-                wrapper.eq(Example::getRoomid, roomId);
-            } catch (StringIndexOutOfBoundsException e) {
-                LambdaQueryWrapper<User> wrapperUser = Wrappers.lambdaQuery();
-                LambdaQueryWrapper<RoomStandard> wrapperStandard = Wrappers.lambdaQuery();
-                if (wrapperUser.eq(User::getName, search) != null) {
-                    Integer userid = wrapperUser.eq(User::getName, search).getEntity().getId();
-                    wrapper.eq(Example::getId, userid);
-                }else if (wrapperStandard.eq(RoomStandard::getTypename, search) != null) {
-                    Integer type = wrapperStandard.eq(RoomStandard::getTypename, search).getEntity().getType();
-                    wrapper.eq(Example::getType, type);
-                }
-            }
+            Integer roomId = Integer.parseInt(search);
+            wrapper.like(Room::getRoomid, roomId);
         }
 
-        Page<Example> userPage= exampleMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
+        Page<Room> userPage= roomMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return Result.success(userPage);
     }
 

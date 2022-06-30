@@ -12,7 +12,7 @@ public class Example {
     private Integer bednum;
     private Integer pricetoday;
     private Integer type;
-    @TableId(value = "roomId")
+    @TableId(value = "roomid")
     private Integer roomid;
     private Integer day;
     private Integer id;

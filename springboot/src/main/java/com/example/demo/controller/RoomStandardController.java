@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
+import com.example.demo.entity.Example;
 import com.example.demo.entity.Room;
 import com.example.demo.entity.User;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class RoomStandardController {
         }
         QueryWrapper<RoomStandard> Wrapper=new QueryWrapper<>();
         for(int i=0; i < roomStandardMapper.selectCount(Wrapper); i++) {
-            if(roomstandard.getType() < i){
+            if(roomstandard.getType() == i){
                 return Result.error("-2","添加房间种类失败，此种类已存在");
             }
         }
@@ -44,7 +45,7 @@ public class RoomStandardController {
         if(roomstandard.getType()==null){
             return Result.error("-2","更新房间种类失败，请填写房间种类");
         }
-        roomStandardMapper.insert(roomstandard);
+        roomStandardMapper.updateById(roomstandard);
         return Result.success();
     }
 
@@ -64,10 +65,10 @@ public class RoomStandardController {
         LambdaQueryWrapper<RoomStandard> wrapper= Wrappers.lambdaQuery();
         if(StringUtils.isNotBlank(search)) {
             try {
-                Integer type = Integer.valueOf(search);
-                wrapper.like(RoomStandard::getTypename, type);
+                Integer type = Integer.parseInt(search);
+                wrapper.like(RoomStandard::getType, type);
+            } catch (Exception exc) {
 
-            } catch (StringIndexOutOfBoundsException e) {
                 wrapper.like(RoomStandard::getTypename, search);
             }
         }
@@ -75,5 +76,6 @@ public class RoomStandardController {
         Page<RoomStandard> userPage=roomStandardMapper.selectPage(new Page<>(pageNum,pageSize),wrapper);
         return Result.success(userPage);
     }
+
 
 }

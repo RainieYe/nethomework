@@ -2,14 +2,14 @@
   <div style="padding: 10px">
     <!--    功能区-->
     <div style="margin: 10px 0">
-      <el-button type="primary" @click="add">新增</el-button>
+      <el-button type="primary" @click="flagmethod(), add()">新增</el-button>
 <!--      <el-button type="primary">导入</el-button>-->
-      <el-button type="primary" @click="exportExcel">导出</el-button>
+<!--      <el-button type="primary" @click="exportExcel">导出</el-button>-->
     </div>
     <!--    搜索区域-->
     <div style="margin: 10px 0">
-      <el-input v-model="search" placeholder="请输入关键字" style="width: 20%" clearable/>
-      <el-button type="primary" style="margin-left: 5px" @click="load">部门查询</el-button>
+      <el-input v-model="search" placeholder="请输入id、姓名、或用户名" style="width: 20%" clearable/>
+      <el-button type="primary" style="margin-left: 5px" @click="load">查询</el-button>
     </div>
     <div style="font: -apple-system-body;font-weight: lighter">
     说明：权限值1表示管理员，2表示普通用户
@@ -22,29 +22,15 @@
                        label="用户名"/>
       <el-table-column prop="password"
                        label="密码" />
+      <el-table-column prop="name"
+                       label="姓名" />
       <el-table-column prop="jurisdiction"
                        label="权限" />
-      <el-table-column prop="age"
-                       label="年龄"/>
-      <el-table-column prop="sex"
-                       label="性别" />
-      <el-table-column prop="jurisdiction"
-                       label="权限" />
-      <el-table-column prop="address"
-                       label="地址" />
-      <el-table-column prop="department"
-                       label="部门"/>
-      <el-table-column prop="post"
-                       label="职务" />
-      <el-table-column prop="excel"
-                       label="擅长" />
-      <el-table-column prop="outpatienttime"
-                       label="门诊时间" />
-      <el-table-column prop="professionaltitles"
-                       label="职称" />
+      <el-table-column prop="tip"
+                       label="备注" />
       <el-table-column  label="操作">
         <template #default="scope" >
-          <el-button type="button"  @click="handleEdit(scope.row)"
+          <el-button type="button"  @click="showmethod(), handleEdit(scope.row)"
                      style="margin-left: 20px;margin-bottom: 5px">编辑</el-button>
           <el-popconfirm title="确定删除？" @confirm="handleDelete(scope.row.id)">
             <template #reference>
@@ -64,7 +50,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange">
       </el-pagination>
-      <el-dialog v-model="dialogVisible" title="提示" width="30%">
+      <el-dialog v-model="dialogVisible" title="用户操作" width="30%">
         <el-form :model="form" label-width="120px">
           <el-form-item label="用户名">
             <el-input v-model="form.username" style="width: 80%"></el-input>
@@ -72,39 +58,20 @@
           <el-form-item label="密码">
             <el-input v-model="form.password" style="width: 80%"></el-input>
           </el-form-item>
+          <el-form-item v-if="showClass" label="id">
+            <el-input v-model="form.id" style="width: 80%"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名">
+            <el-input v-model="form.name" style="width: 80%"></el-input>
+          </el-form-item>
           <el-form-item label="权限" >
             <template #default="scope">
               <el-radio v-model="form.jurisdiction" label="1">管理员</el-radio>
-              <el-radio v-model="form.jurisdiction" label="2">普通用户</el-radio>
+              <el-radio v-model="form.jurisdiction" label="2">消费者</el-radio>
             </template>
           </el-form-item>
-          <el-form-item label="年龄">
-            <el-input v-model="form.age" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="性别">
-            <div>
-              <el-radio v-model="form.sex" label="男">男</el-radio>
-              <el-radio v-model="form.sex" label="女">女</el-radio>
-              <el-radio v-model="form.sex" label="未知">未知</el-radio>
-            </div>
-          </el-form-item>
-          <el-form-item label="部门">
-            <el-input v-model="form.department" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="职务">
-            <el-input v-model="form.post" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="职称">
-            <el-input v-model="form.professionaltitles" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="擅长">
-            <el-input type="textarea" v-model="form.excel" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="地址">
-            <el-input type="textarea" v-model="form.address" style="width: 80%"></el-input>
-          </el-form-item>
-          <el-form-item label="门诊时间">
-            <el-input type="textarea" v-model="form.outpatienttime" style="width: 80%"></el-input>
+          <el-form-item label="备注">
+            <el-input v-model="form.tip" style="width: 80%"></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -134,6 +101,8 @@ export default {
   },
   data(){
     return{
+      show:true,
+      flag:0,
       form:{},
       search:'',
       currentPage:1,
@@ -147,7 +116,15 @@ export default {
     this.load()
   },
   methods:{
+    showmethod(){
+      this.show = false;
+    },
+    flagmethod(){
+      this.flag=1;
+    },
     load(){
+      this.flag = 0;
+      this.show = true;
       request.get("/user",{
         params:{
           pageNum:this.currentPage,
@@ -161,7 +138,7 @@ export default {
       })
     },
     save(){
-      if(this.form.id){//更新
+      if(this.flag===0){//更新
         request.put("/user",this.form).then(res=>{
           console.log(res)
           if(res.code ==='0'){
@@ -174,6 +151,7 @@ export default {
               type:"error",
               message:res.msg
             })
+            this.load();
           }
         })
       }else{//新增
@@ -189,10 +167,10 @@ export default {
               type:"error",
               message:res.msg
             })
+            this.load();
           }
         })
       }
-      this.load();
       this.dialogVisible=false;
     },
     add(){

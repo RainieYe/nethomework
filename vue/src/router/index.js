@@ -14,6 +14,11 @@ const routes = [
       component: ()=>import("@/views/Selfinformation")
       },
       {
+        path: '/myroom',
+        name: 'myroom',
+        component: ()=>import("@/views/myroom")
+      },
+      {
         path: 'user',
         name: 'User',
         component: ()=>import("@/views/User"),
@@ -30,12 +35,12 @@ const routes = [
         component: ()=>import("@/views/Person")
       },
       {
-        path: '/room',
+        path: '/example',
         name: 'Room',
         component: ()=>import("@/views/Room")
       },
       {
-        path: '/roomStandard',
+        path: '/roomstandard',
         name: 'RoomStandard',
         component: ()=>import("@/views/RoomStandard")
       },

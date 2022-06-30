@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class Room {
     private Integer roomtype;
-    @TableId(value = "roomId")
+    @TableId(value = "roomid")
     private Integer roomid;
     private Integer day;
     private Integer userid;

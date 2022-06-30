@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -44,9 +45,14 @@ public class UserController {
     public Result<?> register(@RequestBody User user){
 //        查看用户名是否存在
         User res=userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,user.getUsername()));
+        User res1=userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getPhone,user.getPhone()));
         if(res!=null){
             return Result.error("-3","用户名已存在");
         }
+        if(res1==null){
+            user.setPhone(null);
+        }
+        user.setJurisdiction("2");
         userMapper.insert(user);
         return Result.success();
     }
@@ -56,9 +62,38 @@ public class UserController {
     public Result<?> save(@RequestBody User user){
         if(user.getPassword()==null){
             user.setPassword("123456");
+            user.setJurisdiction("2");
         }
-        userMapper.insert(user);
+        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getId,user.getId()));
+        User res1 = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,user.getUsername()));
+        // System.out.println(res);
+        // System.out.println(res1);
+
+        if(res != null){
+            //System.out.println("0000000000");
+            LambdaUpdateWrapper<User> wrapper= Wrappers.lambdaUpdate();
+
+            if(res1.equals(res)) {
+                //System.out.println("0000000011");
+                wrapper.eq(User::getId,user.getId()).set(User::getUsername,user.getUsername()).set(User::getName, user.getName()).set(User::getPhone, user.getPhone()).set(User::getTip, user.getTip());
+                userMapper.update(null, wrapper);
+            }else{
+                //System.out.println("0000000022");
+                return Result.error("-3","id,用户名已存在");
+            }
+
+        }else{
+            if(res1 == null){
+                // System.out.println("0000001111");
+                userMapper.insert(user);
+            }else{
+                // System.out.println("0000001122");
+                return Result.error("-3","用户名已存在");
+            }
+
+        }
         return Result.success();
+
     }
 
     // 更新用户信息
@@ -70,14 +105,14 @@ public class UserController {
 
     // 删除用户信息
     @DeleteMapping("/{id}")
-    public Result<?> delete(@PathVariable Long id){
+    public Result<?> delete(@PathVariable Integer id){
         userMapper.deleteById(id);
         return Result.success();
     }
 
     // 按id or username or name查询用户信息
     @GetMapping
-    public Result<?> findByUserId(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize,
                                   @RequestParam(defaultValue = "") String search){
         LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
@@ -85,16 +120,8 @@ public class UserController {
             try {
                 Integer Id = Integer.valueOf(search);
                 wrapper.eq(User::getId, Id);
-            } catch (StringIndexOutOfBoundsException e) {
-                LambdaQueryWrapper<User> wrapperUser = Wrappers.lambdaQuery();
-                if (wrapperUser.eq(User::getUsername, search) != null) {
-                    Integer userid = wrapperUser.eq(User::getUsername, search).getEntity().getId();
-                    wrapper.eq(User::getId, userid);
-                }
-                if (wrapperUser.eq(User::getName, search) != null) {
-                    Integer userid = wrapperUser.eq(User::getName, search).getEntity().getId();
-                    wrapper.eq(User::getId, userid);
-                }
+            } catch (Exception e) {
+                wrapper.like(User::getUsername,search).or().like(User::getName,search);
             }
         }
 

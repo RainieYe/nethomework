@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface ExampleMapper extends BaseMapper<Example> {
-    @Select("${sqlStr}")
-    List<Example> dynamicSql(@Param("sqlStr")String sql);
+    @Select("${mysql}")
+    List<Example> dynamicSql(@Param("mysql")String sql);
 
 }

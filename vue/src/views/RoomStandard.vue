@@ -4,7 +4,7 @@
     <div style="margin: 10px 0;background-color: #dedfe0">
       <el-button style="border-radius:20px;background-color: #b7b1a5" @click="add">新增</el-button>
       <!--      <el-button type="primary">导入</el-button>-->
-      <el-button style="border-radius:20px;background-color: #b7b1a5" @click="exportExcel">导出</el-button>
+<!--      <el-button style="border-radius:20px;background-color: #b7b1a5" @click="exportExcel">导出</el-button>-->
       <el-input v-model="search" placeholder="请输入关键字" style="width: 20%;margin-left: 930px" clearable/>
       <el-button style="border-radius:20px;background-color: #b7b1a5;text-decoration-color:#cccccc;margin-left: 5px" @click="load">查询</el-button>
     </div>
@@ -26,6 +26,8 @@
           <img   v-if="scope.row.type>7" src="@/assets/img8.png" style="width: 100px;height: 70px;margin-left: 7px">
         </el-card>
       </el-table-column>
+      <el-table-column v-if="false" prop="type"
+                       label="房型号"/>
       <el-table-column prop="typename"
                        label="房型"/>
       <el-table-column prop="pricetoday"
@@ -36,9 +38,9 @@
                        label="床位数量" />
       <el-table-column  label="操作">
         <template #default="scope" >
-          <el-button type="button"  @click="handleEdit(scope.row)"
+          <el-button type="button"  @click="flagmethod(),handleEdit(scope.row)"
                      style="margin-left: 20px;margin-bottom: 5px">编辑</el-button>
-          <el-popconfirm title="确定删除？" @confirm="handleDelete(scope.row.id)">
+          <el-popconfirm title="确定删除？" @confirm="handleDelete(scope.row)">
             <template #reference>
               <el-button type="danger"  style="margin-left: 20px">删除</el-button>
             </template>
@@ -96,6 +98,7 @@ export default {
     return{
       form:{},
       search:'',
+      flag:0,
       currentPage:1,
       pageSize:10,
       dialogVisible:false,
@@ -106,11 +109,14 @@ export default {
   created() {
     this.load()
     //
-    let str =sessionStorage.getItem("roomstandard")||"{}"
+    //let str =sessionStorage.getItem("roomstandard")||"{}"
   },
   methods:{
+    flagmethod(){
+      this.flag=1;
+    },
     load(){
-      request.get("/roomStandard",{
+      request.get("/roomstandard",{
         params:{
           pageNum:this.currentPage,
           pageSize:this.pageSize,
@@ -123,16 +129,16 @@ export default {
       })
     },
     save(){
-      if(this.form.type){//更新
-        request.put("/roomStandard",this.form).then(res=>{
+      if(this.flag===1){//更新
+        request.put("/roomstandard",this.form).then(res=>{
           console.log(res)
           if(res.code ==='0'){
             this.$message({
               type:"success",
               message:"更新成功"
             })
-            //
-            sessionStorage.setItem("roomstandard",JSON.stringify(this.form))
+            this.load();
+            //sessionStorage.setItem("roomstandard",JSON.stringify(this.form))
           }else{
             this.$message({
               type:"error",
@@ -141,13 +147,14 @@ export default {
           }
         })
       }else{//新增
-        request.post("/roomStandard",this.form).then(res=>{
+        request.post("/roomstandard",this.form).then(res=>{
           console.log(res)
           if(res.code ==='0'){
             this.$message({
               type:"success",
               message:"新增成功"
             })
+            this.load();
           }else{
             this.$message({
               type:"error",
@@ -156,16 +163,17 @@ export default {
           }
         })
       }
+      //this.load();
       this.dialogVisible=false;
-      this.load();
+
     },
     add(){
       this.dialogVisible=true;
       this.form={};//清空表单对象
     },
-    handleDelete(type){
-      console.log(type);
-      request.delete("/roomStandard/${type}").then(res=>{
+    handleDelete(row){
+      console.log(row.type);
+      request.delete("/roomstandard/"+row.type).then(res=>{
         if(res.code ==='0'){
           this.$message({
             type:"success",
