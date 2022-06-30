@@ -23,12 +23,13 @@ public class RoomController {
 
     @Resource
     RoomMapper roomMapper;
+    @Resource
     ExampleMapper exampleMapper;
 
     // 增加房间
     @PostMapping
     public Result<?> save(@RequestBody Room room){
-        if(room.getRoomId()==null){
+        if(room.getRoomid()==null){
             return Result.error("-1","添加房间失败，请添加房间ID");
         }
         roomMapper.insert(room);
@@ -65,7 +66,7 @@ public class RoomController {
         if(StringUtils.isNotBlank(search)) {
             try {
                 Integer roomId = Integer.valueOf(search);
-                wrapper.eq(Example::getRoomId, roomId);
+                wrapper.eq(Example::getRoomid, roomId);
             } catch (StringIndexOutOfBoundsException e) {
                 LambdaQueryWrapper<User> wrapperUser = Wrappers.lambdaQuery();
                 LambdaQueryWrapper<RoomStandard> wrapperStandard = Wrappers.lambdaQuery();

@@ -9,11 +9,11 @@ import lombok.Data;
 public class Example {
     private String typename;
     private Integer area;
-    private Integer bedNum;
-    private Integer priceToday;
-    private Integer Type;
+    private Integer bednum;
+    private Integer pricetoday;
+    private Integer type;
     @TableId(value = "roomId")
-    private Integer roomId;
+    private Integer roomid;
     private Integer day;
     private Integer id;
     private String password;
