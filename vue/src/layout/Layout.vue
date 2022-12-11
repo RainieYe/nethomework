@@ -31,11 +31,11 @@
           default-active="1"
           router
           style="width:200px;min-height: calc(100vh - 10px);background-color:#b4b4af">
-        <el-sub-menu index="1"   v-if="user.jurisdiction === '1'">
+        <el-sub-menu index="1"   >
           <template #title>系统管理</template>
-          <el-menu-item style="background-color:#c4c4c0" index="/roomstandard">客房标准信息管理</el-menu-item>
-          <el-menu-item style="background-color:#c4c4c0" index="/example">订房信息管理</el-menu-item>
-          <el-menu-item style="background-color:#c4c4c0" index="/user">用户管理</el-menu-item>
+          <el-menu-item style="background-color:#c4c4c0" index="/roomstandard" >客房标准信息管理</el-menu-item>
+          <el-menu-item style="background-color:#c4c4c0" index="/example" v-if="user.jurisdiction === '1'">订房信息管理</el-menu-item>
+          <el-menu-item style="background-color:#c4c4c0" index="/user" v-if="user.jurisdiction === '1'">用户管理</el-menu-item>
 <!--          <el-menu-item index="/user">顾客信息管理</el-menu-item>-->
         </el-sub-menu>
         <el-sub-menu style="text-overline-color: #FFFFFF;" index="2" >

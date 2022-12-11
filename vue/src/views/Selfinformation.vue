@@ -21,8 +21,6 @@
             {{user.tip}}
           </el-form-item>
 
-
-
         </el-form>
         <el-table class=table :data="tableData" border stripe style="width: 100%">
           <el-table-column prop="roomid"
@@ -33,6 +31,10 @@
                            label="客房单价" />
           <el-table-column prop="day"
                            label="天数" />
+          <el-table-column label="续住">
+            <el-button type="button"  @click="stay(),handleEdit(scope.row)"
+                       style="margin-left: 20px;margin-bottom: 5px">续住</el-button>
+          </el-table-column>
         </el-table>
       </el-card>
     </div>
@@ -65,6 +67,9 @@ export default {
       this.tableData=res.data.records
       this.total=res.data.total
     })
+  },
+  stay(){
+
   }
 }
 

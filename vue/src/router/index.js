@@ -44,6 +44,11 @@ const routes = [
         name: 'RoomStandard',
         component: ()=>import("@/views/RoomStandard")
       },
+      {
+        path: '/roomsee',
+        name: 'RoomSee',
+        component: ()=>import("@/views/RoomSee")
+      },
     ]
   },
   {

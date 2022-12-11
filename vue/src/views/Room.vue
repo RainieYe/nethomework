@@ -41,8 +41,9 @@
                      style="margin-left: 20px;margin-bottom: 5px">入住</el-button>
           <el-button type="button" style="margin-left: 20px;margin-bottom: 5px;background-color:#003300"
                      @click="account(scope.row)">结账</el-button>
-          <el-popconfirm title="确定删除？" @confirm="handleDelete(scope.row)">
+          <el-popconfirm title="确定退房？" @confirm="handleDelete(scope.row)">
           <template #reference>
+
             <el-button type="danger"  style="margin-left: 20px">退房</el-button>
           </template>
           </el-popconfirm>
@@ -125,7 +126,33 @@
             </span>
         </template>
       </el-dialog>
-
+      <el-dialog v-model="dialogVisible3" title="提示" width="30%">
+            <span>“此房还未入住！无需结账或退房”</span>
+        <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="dialogVisible3=false">取消</el-button>
+              <el-button type="primary" @click="dialogVisible3=false">确认</el-button>
+            </span>
+        </template>
+      </el-dialog>
+      <el-dialog v-model="dialogVisible4" title="提示" width="30%">
+        <span>“此房还未结账！不能退房”</span>
+        <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="dialogVisible4=false">取消</el-button>
+              <el-button type="primary" @click="dialogVisible4=false">确认</el-button>
+            </span>
+        </template>
+      </el-dialog>
+      <el-dialog v-model="dialogVisible5" title="提示" width="30%">
+        <span>“此房已经入住,不可重复入住！”</span>
+        <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="dialogVisible5=false">取消</el-button>
+              <el-button type="primary" @click="dialogVisible5=false">确认</el-button>
+            </span>
+        </template>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -148,12 +175,19 @@ export default {
       day:0,
       price:0,
       money:0,
+
+      stay:0,
+      accountnum:0,
+
       delroomid:null,
       currentPage:1,
       pageSize:10,
       dialogVisible:false,
       dialogVisible1:false,
       dialogVisible2:false,
+      dialogVisible3:false,
+      dialogVisible4:false,
+      dialogVisible5:false,
       total:0,
       tableData:[],
     }
@@ -253,19 +287,20 @@ export default {
       this.dialogVisible1=false;
     },
     save2(){
-      this.save1()
-      this.save()
+        this.save1()
+        this.save()
     },
     add(){
       this.dialogVisible=true;
       this.form={};//清空表单对象
     },
     account(row){
-      this.price=row.pricetoday;
-      this.day=row.day;
+        row.accountnum=1;
+        this.price=row.pricetoday;
+        this.day=row.day;
 
-      this.money=row.pricetoday*row.day;
-      this.dialogVisible2=true;
+        this.money=row.pricetoday*row.day;
+        this.dialogVisible2=true;
     },
     save3(){
       this.dialogVisible2=false;

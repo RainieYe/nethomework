@@ -61,8 +61,12 @@ export default {
               })
               //缓存用户信息
               sessionStorage.setItem("user",JSON.stringify(res.data))
+              let jurisdiction = res.data.jurisdiction
+
               //登陆成功之后进行页面的跳转，跳转到主页面
-              this.$router.push("/selfinformation")
+              this.$router.push({path:"/selfinformation",params: {
+                  jurisdiction:jurisdiction
+                }})
             }else{
               this.$message({
                 type:"error",
