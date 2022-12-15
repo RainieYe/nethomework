@@ -7,8 +7,10 @@
         style="width: 180px;min-height: calc(100vh - 10px)">
         <el-sub-menu >
           <template #title>系统管理</template>
+
           <el-menu-item index="/user">用户管理</el-menu-item>
          <el-menu-item index="/jurisdiction">权限管理</el-menu-item>
+          <el-menu-item >数据展示</el-menu-item>
         </el-sub-menu>// #title
         <el-sub-menu >
           <template >个人信息管理 </template>

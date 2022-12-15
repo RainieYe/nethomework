@@ -36,6 +36,7 @@
           <el-menu-item style="background-color:#c4c4c0" index="/roomstandard" >客房标准信息管理</el-menu-item>
           <el-menu-item style="background-color:#c4c4c0" index="/example" v-if="user.jurisdiction === '1'">订房信息管理</el-menu-item>
           <el-menu-item style="background-color:#c4c4c0" index="/user" v-if="user.jurisdiction === '1'">用户管理</el-menu-item>
+          <el-menu-item style="background-color:#c4c4c0" index="/show" v-if="user.jurisdiction === '1'">数据展示</el-menu-item>
 <!--          <el-menu-item index="/user">顾客信息管理</el-menu-item>-->
         </el-sub-menu>
         <el-sub-menu style="text-overline-color: #FFFFFF;" index="2" >

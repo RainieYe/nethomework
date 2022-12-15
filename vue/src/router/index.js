@@ -24,6 +24,11 @@ const routes = [
         component: ()=>import("@/views/User"),
       },
       {
+        path:'show',
+        name:'Show',
+        component: ()=>import("@/views/Show"),
+      },
+      {
         path: 'jurisdiction',
         name: 'Jurisdiction',
         component: ()=>import("@/views/Jurisdiction"),
